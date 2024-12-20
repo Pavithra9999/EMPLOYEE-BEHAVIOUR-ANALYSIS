@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #3498db, #2ecc71); /* Light teal to soft pink gradient */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            
+            height: 100vh;
+        }
+
+        .login-container {
+            width: 100%;
+            margin-top: 100px;
+            margin-bottom: 400px;
+            max-width: 400px;
+            padding: 20px;
+            background: #ffffff; /* Subtle off-white */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 20px); /* Adjusted width to account for padding */
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background: #2ecc71;
+            color: #fff;
+            cursor: pointer;
+            width: calc(100% - 20px); /* Adjusted width to match input fields */
+            margin-top: 20px;
+        }
+
+        input[type="submit"]:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form action="{{ url_for('login') }}" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+</html>

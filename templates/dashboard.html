@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            margin: 0;
+            padding: 0;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-input-label {
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: #3498db;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .file-input-label:hover {
+            background: #2980b9;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background: #2ecc71;
+            color: #fff;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+        input[type="submit"]:hover {
+            background: #27ae60;
+        }
+
+        .logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .logout:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+    <div class="container">
+        <h1>Welcome, {{ username }}</h1>
+        <h2>Upload Data for Anomaly Detection</h2>
+        <form action="{{ url_for('results') }}" method="post" enctype="multipart/form-data">
+            <label for="file" class="file-input-label">Choose File</label>
+            <input type="file" name="file" id="file" accept=".csv">
+            <input type="submit" value="Upload and Analyze">
+        </form>
+    </div>
+</body>
+</html>

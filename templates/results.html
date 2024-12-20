@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff7f7;
+        }
+
+        .results {
+            font-size: 1.2em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px 0;
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #eaeaea;
+        }
+
+        .anomaly {
+            background-color: #f8d7da; /* Light red for anomalies */
+            color: #e60f25; /* Dark red text for visibility */
+        }
+
+        .ip-check-form {
+            margin: 20px 0;
+        }
+
+        .ip-check-form input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .ip-check-form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .ip-check-form input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        .anomaly-container {
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><strong>Results</strong></h1>
+
+        {% if anomalies is not none %}
+            <p class="results">Total anomalies detected: <span class="highlight">{{ anomalies }}</span></p>
+            <button id="show-anomalies" class="button">Show Anomalies</button>
+        {% else %}
+            <p class="results">No anomalies detected.</p>
+        {% endif %}
+        
+        <div id="anomaly-container" class="anomaly-container">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            {% for column in employees[0].keys() %}
+                                <th>{{ column }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employee in employees %}
+                            <tr class="{% if employee.anomaly %}anomaly{% endif %}">
+                                {% for value in employee.values() %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+           
+        </div>
+
+        <div class="ip-check-form">
+            <h2>Check IP Address for Malicious Activity</h2>
+            <form action="{{ url_for('check_ip') }}" method="post">
+                <input type="text" name="ip_address" placeholder="Enter IP Address" required>
+                <input type="submit" value="Check IP">
+            </form>
+        </div>
+
+        <a href="{{ url_for('dashboard') }}" class="button">Back to Dashboard</a>
+    </div>
+
+    <script>
+        document.getElementById('show-anomalies').addEventListener('click', function() {
+            var anomalyContainer = document.getElementById('anomaly-container');
+            if (anomalyContainer.style.display === 'none') {
+                anomalyContainer.style.display = 'block';
+                this.textContent = 'Hide Anomalies';
+            } else {
+                anomalyContainer.style.display = 'none';
+                this.textContent = 'Show Anomalies';
+            }
+        });
+    </script>
+</body>
+</html>    

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            height: 100%;
+            transition: background-color 0.5s ease;
+        }
+
+        .container {
+            border-radius: 15px;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 95%;
+            width: 100%;
+            height: 90vh;
+            overflow-y: auto;
+            animation: fadeIn 1.2s ease-in-out;
+            border-left: 8px solid #3498db;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        h1 {
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: 600;
+            position: relative;
+        }
+
+        h1:after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background: #3498db;
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 5px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #3498db;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            font-weight: 600;
+            border-bottom: 2px solid #3498db;
+        }
+
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9f9;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ecf0f1;
+        }
+
+        tr:hover {
+            background-color: #e1e9f1;
+            transition: background-color 0.3s ease;
+        }
+
+        .anomaly {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>IP Report</h1>
+
+        <div>
+            <h2>AbuseIPDB Information</h2>
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>IP Address</td>
+                    <td>{{  ip_info['data']['ipAddress']}}</td>
+                </tr>
+                <tr>
+                    <td>Country</td>
+                    <td>{{ ip_info['data']['countryCode']  }}</td>
+                </tr>
+                <tr>
+                    <td>Domain</td>
+                    <td>{{ip_info['data']['domain']}}</td>
+                </tr>
+                <tr>
+                    <td>Usage Type</td>
+                    <td>{{ ip_info['data']['usageType'] }}</td>
+                </tr>
+                <tr>
+                    <td>Abuse Confidence Score</td>
+                    <td>{{ ip_info['data']['abuseConfidenceScore'] }}</td>
+                </tr>
+                <tr>
+                    <td>Last Reported</td>
+                    <td>{{ ip_info.lastReportedAt or 'Never' }}</td>
+                </tr>
+                <tr>
+                    <td>Total Reports</td>
+                    <td>{{  ip_info['data']['totalReports']  }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <h2>WHOIS Information</h2>
+            {% if whois_data.error %}
+                <p class="error"><strong>Error:</strong> {{ whois_data.error }}</p>
+            {% else %}
+                <table>
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Domain Name</td>
+                        <td>{{ whois_data.domain_name or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Registrar</td>
+                        <td>{{ whois_data.registrar or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Creation Date</td>
+                        <td>{{ whois_data.creation_date or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Expiration Date</td>
+                        <td>{{ whois_data.expiration_date or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Name Servers</td>
+                        <td>{{ whois_data.name_servers or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>{{ whois_data.status or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Emails</td>
+                        <td>{{ whois_data.emails or 'N/A' }}</td>
+                    </tr>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            margin: 0;
+            padding: 0;
+            color: #ffffff;
+        }
+        
+        .header {
+            display: flex;
+            
+            
+            padding: 20px;
+            
+            position: relative;
+        }
+        
+        .header img {
+            height: 100px;
+            width: auto;
+            margin-left: 0px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 2.5em;
+            color: #ffffff;
+        }
+        
+        p {
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+        
+        .buttons {
+            margin: 30px 0;
+        }
+        
+        .buttons a {
+            text-decoration: none;
+            padding: 15px 30px;
+            margin: 10px;
+            background: #ffffff;
+            color: #333;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .buttons a:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+    </div>
+    <div class="container">
+        <h1>Welcome to Employee Behavior Analysis System</h1>
+        <p>Analyze and detect anomalies in employee working data.</p>
+        <div class="buttons">
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('signup') }}">Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>

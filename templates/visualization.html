@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anomaly Visualization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Anomaly Visualization</h1>
+        <canvas id="anomalyChart"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('anomalyChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Total Employees', 'Anomalous Employees'],
+                datasets: [{
+                    label: 'Employee Data',
+                    data: [{{ total_employees }}, {{ anomalous_employees }}], // Pass the data here
+                    backgroundColor: ['#3498db', '#e74c3c'],
+                    borderColor: ['#2980b9', '#c0392b'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Anomalous activity count per employee chart
+        var ctx2 = document.getElementById('anomalyActivityChart').getContext('2d');
+        var employeeLabels = {{ anomaly_count_per_employee.keys()|tojson }}; // Employee IDs
+        var anomalyCounts = {{ anomaly_count_per_employee.values()|tojson }}; // Anomaly counts
+
+        var chart2 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: employeeLabels,
+                datasets: [{
+                    label: 'Anomalous Activity Count',
+                    data: anomalyCounts,
+                    backgroundColor: '#8e44ad',
+                    borderColor: '#8e44ad',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
